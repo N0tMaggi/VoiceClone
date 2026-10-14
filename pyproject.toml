@@ -1,0 +1,31 @@
+[project]
+name = "voiceclone"
+version = "0.1.0"
+description = "Lokale Stimmen-Klon-App mit KittenTTS 2"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "kittenml",
+    "torch",
+    "numpy",
+    "scipy",
+    "soundfile",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-multipart>=0.0.9",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+# RTX 50xx (Blackwell) GPUs need PyTorch builds for CUDA 12.8 or newer.
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

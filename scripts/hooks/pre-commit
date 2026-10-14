@@ -1,0 +1,18 @@
+#!/bin/sh
+# Versioned pre-commit hook. Enable once per clone:  git config core.hooksPath scripts/hooks
+# Blocks commits that contain voices, recordings, generated audio, model weights or secrets.
+
+PY=""
+for candidate in python py python3; do
+  if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c "import sys" >/dev/null 2>&1; then
+    PY="$candidate"
+    break
+  fi
+done
+
+if [ -z "$PY" ]; then
+  echo "pre-commit: no working Python found, cannot run the private-file guard. Refusing to commit." >&2
+  exit 1
+fi
+
+exec "$PY" scripts/check_private_files.py --staged

@@ -1,0 +1,109 @@
+# =====================================================================
+# PRIVATE DATA - NEVER COMMIT
+# Voices, recordings, generated speech and settings of the people using this app.
+# scripts/check_private_files.py (pre-commit hook + test) enforces these rules.
+# =====================================================================
+
+# Everything the app writes at runtime: voices, samples, generated audio, history, settings
+/data/
+data/
+
+# Personal recordings and local experiments
+/samples/
+samples/
+/spike_out/
+spike_out/
+/recordings/
+/exports/
+/outputs/
+/scratch/
+/tmp/
+
+# Audio in ANY location and ANY format (recordings, clones, generated speech).
+# If you ever need a tiny audio fixture, add it deliberately with `git add -f` and a reason in the commit message -
+# the commit guard will still stop you unless you edit it on purpose.
+*.wav
+*.wave
+*.mp3
+*.ogg
+*.oga
+*.opus
+*.flac
+*.m4a
+*.aac
+*.wma
+*.aiff
+*.aif
+*.aifc
+*.webm
+*.weba
+*.mka
+*.mp4
+*.m4b
+*.caf
+*.amr
+*.3gp
+*.mid
+*.midi
+
+# Model weights and caches (large, and licensed separately)
+*.safetensors
+*.gguf
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.npz
+*.npy
+/models/
+/hf_cache/
+/.cache/
+.huggingface/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+*credentials*
+.netrc
+
+# =====================================================================
+# Python
+# =====================================================================
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# =====================================================================
+# Editors, OS, tools
+# =====================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+.claude/settings.local.json

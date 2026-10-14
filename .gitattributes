@@ -1,0 +1,4 @@
+# Normalise line endings; shell scripts and hooks must stay LF so they run on every OS.
+* text=auto
+*.sh text eol=lf
+scripts/hooks/* text eol=lf

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoiceClone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0b0a'/%3E%3Crect x='6' y='13' width='3' height='6' rx='1.5' fill='%23ff5a2c'/%3E%3Crect x='11.5' y='8' width='3' height='16' rx='1.5' fill='%23ff5a2c'/%3E%3Crect x='17' y='11' width='3' height='10' rx='1.5' fill='%23ff5a2c'/%3E%3Crect x='22.5' y='14' width='3' height='4' rx='1.5' fill='%23ff5a2c'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ Sidebar ============ -->
+  <nav class="side">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 28 28" aria-hidden="true">
+        <rect class="mb" x="3" y="11" width="3.4" height="6" rx="1.7"/><rect class="mb" x="9" y="6" width="3.4" height="16" rx="1.7"/>
+        <rect class="mb" x="15" y="9" width="3.4" height="10" rx="1.7"/><rect class="mb" x="21" y="12" width="3.4" height="4" rx="1.7"/>
+      </svg>
+      <span>VoiceClone</span>
+    </div>
+    <div class="nav" id="nav">
+      <i class="nav-ink"></i>
+      <a class="nav-item" href="#studio" data-view="studio">
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm-7-3a7 7 0 0 0 14 0M12 19v2"/></svg>
+        <span data-i18n="nav.studio"></span><kbd>1</kbd>
+      </a>
+      <a class="nav-item" href="#capture" data-view="capture">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" class="fill"/></svg>
+        <span data-i18n="nav.capture"></span><kbd>2</kbd>
+      </a>
+      <a class="nav-item" href="#voices" data-view="voices">
+        <svg viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 8v8M20 11v2"/></svg>
+        <span data-i18n="nav.voices"></span><em class="badge" id="navVoices">0</em>
+      </a>
+      <a class="nav-item" href="#gallery" data-view="gallery">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+        <span data-i18n="nav.gallery"></span><em class="badge" id="navClips">0</em>
+      </a>
+      <a class="nav-item" href="#settings" data-view="settings">
+        <svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+        <span data-i18n="nav.settings"></span><kbd>5</kbd>
+      </a>
+    </div>
+    <div class="side-foot">
+      <div class="hint-box">
+        <strong data-i18n="tip.title"></strong>
+        <span data-i18n="tip.text"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ Content ============ -->
+  <main class="main">
+
+    <!-- ===== Studio ===== -->
+    <section class="view" id="view-studio" hidden>
+      <header class="vhead">
+        <div><h1 data-i18n="studio.title"></h1><p data-i18n="studio.sub"></p></div>
+      </header>
+      <div class="studio">
+        <div class="col">
+          <div class="card grow">
+            <label class="lbl" for="text" data-i18n="studio.text"></label>
+            <textarea id="text" maxlength="2000" spellcheck="false" dir="auto" data-i18n-ph="studio.placeholder"></textarea>
+            <div class="xrow"><span class="xlbl"><b data-i18n="ctl.emotion"></b><small data-i18n="ctl.emotionWhere"></small><span class="seg mini" id="emoMode"><button class="is-on" data-mode="start" data-i18n="ctl.modeStart"></button><button data-mode="cursor" data-i18n="ctl.modeCursor"></button></span></span><div class="chips xchips" id="emoChips"></div></div>
+            <div class="xrow"><span class="xlbl"><b data-i18n="ctl.events"></b><small data-i18n="ctl.eventsWhere"></small></span><div class="chips xchips" id="evtChips"></div></div>
+            <div class="xrow"><span class="xlbl"><b data-i18n="ctl.emphasis"></b><small data-i18n="ctl.emphasisWhere"></small></span><div class="chips xchips"><button class="chip tagchip" id="emphBtn" type="button"></button></div></div>
+            <p class="xseg" id="segInfo" hidden></p>
+            <p class="xexample"><span data-i18n="ctl.example"></span> <code>[excited] Das ist (((wirklich))) toll! &lt;laugh&gt; Danke.</code></p>
+            <div class="bar">
+              <select class="field langsel" id="genLang" aria-label="Language"></select>
+              <label class="check"><input type="checkbox" id="expressive"><span></span><b data-i18n="studio.expressive"></b></label>
+              <span class="chars" id="chars">0 / 2000</span>
+              <button class="gen" id="genBtn">
+                <span class="gen-label" data-i18n="studio.generate"></span>
+                <span class="gen-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </button>
+            </div>
+          </div>
+          <div class="card ctl">
+            <div class="rhead"><span class="lbl" data-i18n="ctl.title"></span><button class="link" id="ctlReset" type="button" data-i18n="ctl.reset"></button></div>
+            <div class="chips" id="ctlPresets"></div>
+            <div class="sliders">
+              <div class="srl"><div class="srl-top"><label for="ctlSpeed" data-i18n="ctl.speed"></label><output id="ctlSpeedOut"></output></div>
+                <input type="range" id="ctlSpeed" min="0.6" max="1.6" step="0.05" value="1"><p class="shint" data-i18n="ctl.speedHint"></p></div>
+              <div class="srl"><div class="srl-top"><label for="ctlTemp" data-i18n="ctl.variation"></label><output id="ctlTempOut"></output></div>
+                <input type="range" id="ctlTemp" min="0.3" max="1.3" step="0.05" value="0.8"><p class="shint" data-i18n="ctl.variationHint"></p></div>
+              <div class="srl"><div class="srl-top"><label for="ctlPause" data-i18n="ctl.pause"></label><output id="ctlPauseOut"></output></div>
+                <input type="range" id="ctlPause" min="0" max="2" step="0.05" value="1"><p class="shint" data-i18n="ctl.pauseHint"></p></div>
+            </div>
+            <details class="adv">
+              <summary data-i18n="ctl.advanced"></summary>
+              <div class="srl"><div class="srl-top"><label for="ctlTopP" data-i18n="ctl.topP"></label><output id="ctlTopPOut"></output></div>
+                <input type="range" id="ctlTopP" min="0.3" max="1" step="0.05" value="0.8"><p class="shint" data-i18n="ctl.topPHint"></p></div>
+              <div class="srl"><div class="srl-top"><label for="ctlRef" data-i18n="ctl.refPrompt"></label></div>
+                <select class="field" id="ctlRef"></select><p class="shint" data-i18n="ctl.refPromptHint"></p></div>
+              <div class="srl"><div class="srl-top"><label for="ctlSplit" data-i18n="ctl.split"></label></div>
+                <select class="field" id="ctlSplit"></select><p class="shint" data-i18n="ctl.splitHint"></p></div>
+              <div class="srl"><div class="srl-top"><label for="ctlSeed" data-i18n="ctl.seed"></label></div>
+                <div class="seedrow"><input class="field" id="ctlSeed" type="text" inputmode="numeric" autocomplete="off" data-i18n-ph="ctl.seedRandom"><button class="btn ghost" id="ctlDice" type="button" data-i18n="ctl.dice"></button></div>
+                <p class="shint" data-i18n="ctl.seedHint"></p></div>
+            </details>
+          </div>
+          <div class="card result" id="result" hidden>
+            <div class="rhead"><span class="lbl" data-i18n="result.title"></span><span class="meta" id="resultMeta"></span></div>
+            <div class="wave" id="resultWave"></div>
+            <div class="row">
+              <button class="btn" id="resultPlay"></button>
+              <a class="btn ghost" id="resultDl" download data-i18n="result.download"></a>
+              <button class="btn text" id="resultFav"></button>
+              <button class="btn text" id="resultLock" type="button"></button>
+            </div>
+          </div>
+        </div>
+        <div class="col side-col">
+          <div class="card">
+            <div class="rhead"><span class="lbl" data-i18n="picker.title"></span><a class="link" href="#capture" data-i18n="picker.new"></a></div>
+            <ul class="picker" id="picker"></ul>
+          </div>
+          <div class="card">
+            <div class="rhead"><span class="lbl" data-i18n="recent.title"></span><a class="link" href="#gallery" data-i18n="recent.all"></a></div>
+            <ul class="mini" id="recent"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Record ===== -->
+    <section class="view" id="view-capture" hidden>
+      <header class="vhead">
+        <div><h1 data-i18n="cap.title"></h1><p data-i18n="cap.sub"></p></div>
+        <div class="tabs" role="tablist"><button class="tab is-on" data-tab="rec" data-i18n="cap.mic"></button><button class="tab" data-tab="file" data-i18n="cap.file"></button><i class="tab-ink"></i></div>
+      </header>
+      <div class="capture">
+        <div class="card">
+          <div class="pane" id="pane-rec">
+            <div class="rec-top">
+              <select class="field langsel" id="promptLang" aria-label="Language"></select>
+              <div class="chips" id="promptChips"></div>
+            </div>
+            <div class="prompter" id="prompter"></div>
+            <div class="rec-row">
+              <button class="rec-btn" id="recBtn" data-i18n-aria="cap.recAria"><span class="rec-ring"></span><span class="rec-core"></span></button>
+              <canvas id="meter" width="720" height="84"></canvas>
+              <div class="timer" id="timer">00:00</div>
+            </div>
+            <p class="hint" id="recHint"></p>
+          </div>
+          <div class="pane" id="pane-file" hidden>
+            <label class="drop" id="drop">
+              <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.flac,.ogg,.m4a,.webm" hidden>
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 33V11m0 0-8 8m8-8 8 8M9 33v4a2 2 0 0 0 2 2h26a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <strong data-i18n="cap.dropTitle"></strong>
+              <span data-i18n="cap.dropSub"></span>
+            </label>
+          </div>
+        </div>
+        <div class="card preview">
+          <div class="rhead"><span class="lbl" data-i18n="cap.preview"></span></div>
+          <div class="empty-state" id="reviewEmpty">
+            <svg viewBox="0 0 48 48"><path d="M8 24h4M16 16v16M24 8v32M32 18v12M40 22v4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+            <p data-i18n-html="cap.empty"></p>
+          </div>
+          <div id="review" hidden>
+            <div class="wave" id="reviewWave"></div>
+            <div class="row"><button class="btn ghost" id="reviewPlay"></button><button class="btn text" id="discard" data-i18n="cap.discard"></button></div>
+            <label class="lbl" for="saveTarget" data-i18n="cap.saveAs"></label>
+            <select class="field" id="saveTarget"></select>
+            <label class="lbl" id="nameLbl" for="voiceName"></label>
+            <input class="field" id="voiceName" type="text" maxlength="60" autocomplete="off">
+            <div class="row between" id="langRow"><span class="lbl" data-i18n="cap.recLang"></span><select class="field langsel" id="saveLang" aria-label="Language"></select></div>
+            <button class="btn wide" id="saveVoice"></button>
+            <div class="report" id="report" hidden></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Voices ===== -->
+    <section class="view" id="view-voices" hidden>
+      <header class="vhead">
+        <div><h1 data-i18n="voices.title"></h1><p id="voicesSub"></p></div>
+        <div class="tools">
+          <input class="field search" id="voiceSearch" type="search" data-i18n-ph="voices.search">
+          <button class="btn ghost" id="voiceSelectBtn"></button>
+          <a class="btn" href="#capture" data-i18n="voices.new"></a>
+        </div>
+      </header>
+      <div class="grid" id="voiceGrid"></div>
+    </section>
+
+    <!-- ===== Gallery ===== -->
+    <section class="view" id="view-gallery" hidden>
+      <header class="vhead">
+        <div><h1 data-i18n="gal.title"></h1><p id="gallerySub"></p></div>
+        <div class="tools">
+          <input class="field search" id="galSearch" type="search" data-i18n-ph="gal.search">
+          <button class="btn ghost" id="galSelectBtn"></button>
+        </div>
+      </header>
+      <div class="filters">
+        <div class="chips" id="galFilters">
+          <button class="chip is-on" data-f="all" data-i18n="gal.all"></button>
+          <button class="chip" data-f="fav" data-i18n="gal.favs"></button>
+        </div>
+        <select class="field sel" id="galLang"></select>
+        <select class="field sel" id="galVoice"></select>
+        <select class="field sel" id="galSort"><option value="new"></option><option value="old"></option><option value="long"></option></select>
+      </div>
+      <div class="grid wide" id="galGrid"></div>
+    </section>
+
+    <!-- ===== Settings ===== -->
+    <section class="view" id="view-settings" hidden>
+      <header class="vhead">
+        <div><h1 data-i18n="set.title"></h1><p data-i18n="set.sub"></p></div>
+      </header>
+      <div class="settings">
+        <div class="card">
+          <div class="srow">
+            <div><div class="stitle" data-i18n="set.lang"></div><p class="sdesc" data-i18n="set.langDesc"></p></div>
+            <div class="seg" id="uiLang"><button data-lang="de">Deutsch</button><button data-lang="en">English</button></div>
+          </div>
+          <div class="srow">
+            <div><div class="stitle" data-i18n="set.genLang"></div><p class="sdesc" data-i18n="set.genLangDesc"></p></div>
+            <select class="field langsel" id="defGenLang" aria-label="Language"></select>
+          </div>
+        </div>
+        <div class="card">
+          <div class="rhead"><span class="lbl" data-i18n="set.legal"></span></div>
+          <div class="srow">
+            <p class="sdesc nm" id="discStatus"></p>
+            <button class="btn ghost" id="discOpen" data-i18n="set.readDisclaimer"></button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="rhead"><span class="lbl" data-i18n="set.about"></span></div>
+          <dl class="kv">
+            <dt data-i18n="set.model"></dt><dd id="aboutModel">-</dd>
+            <dt data-i18n="set.weights"></dt><dd id="aboutWeights">-</dd>
+            <dt data-i18n="set.device"></dt><dd id="aboutDevice">-</dd>
+            <dt data-i18n="set.network"></dt><dd id="aboutNet">-</dd>
+            <dt data-i18n="set.data"></dt><dd data-i18n="set.dataText"></dd>
+            <dt data-i18n="set.license"></dt><dd data-i18n="set.licenseText"></dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selection bar -->
+    <div class="selbar" id="selbar" hidden>
+      <span id="selCount"></span>
+      <button class="btn text" id="selAll" data-i18n="common.all"></button>
+      <button class="btn danger" id="selDelete" data-i18n="common.delete"></button>
+      <button class="btn ghost" id="selCancel" data-i18n="common.done"></button>
+    </div>
+  </main>
+
+  <!-- ============ Status bar ============ -->
+  <footer class="status" id="status">
+    <i class="sweep" id="sweep"></i>
+    <div class="si" id="stEngine" data-state="loading"><i class="dot"></i><span id="stEngineText"></span></div>
+    <div class="si" id="stGpu" hidden><span class="k">GPU</span><span id="stGpuName"></span><span class="vram"><i id="stVram"></i></span><span id="stVramText"></span></div>
+    <div class="si grow-i" id="stActivity"></div>
+    <div class="si"><span class="k" data-i18n="st.voices"></span><span id="stVoices">0</span></div>
+    <div class="si"><span class="k" data-i18n="st.used"></span><span id="stBytes">0 MB</span></div>
+  </footer>
+</div>
+
+<!-- Confirm / input dialog -->
+<div class="modal top" id="dlg" role="dialog" aria-modal="true" hidden>
+  <div class="modal-box">
+    <form id="dlgForm">
+      <h3 id="dlgTitle"></h3>
+      <p id="dlgText"></p>
+      <input class="field" id="dlgInput" type="text" maxlength="60" autocomplete="off" hidden>
+      <div class="dlg-actions">
+        <button class="btn ghost" type="button" id="dlgCancel" data-i18n="common.cancel"></button>
+        <button class="btn" type="submit" id="dlgOk"></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Manage samples -->
+<div class="modal" id="vdlg" role="dialog" aria-modal="true" hidden>
+  <div class="modal-box big">
+    <div class="vd-head">
+      <div><h3 id="vdName"></h3><p id="vdSub"></p></div>
+      <button class="btn text" id="vdClose" type="button" data-i18n="manage.close"></button>
+    </div>
+    <p class="vd-info" id="vdInfo"></p>
+    <ul class="samples" id="vdList"></ul>
+    <div class="dlg-actions between">
+      <button class="btn ghost" id="vdRename" type="button" data-i18n="manage.rename"></button>
+      <button class="btn" id="vdAdd" type="button" data-i18n="manage.add"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Disclaimer (first start) -->
+<div class="modal top" id="disc" role="dialog" aria-modal="true" aria-labelledby="discTitle" hidden>
+  <div class="modal-box big">
+    <div class="disc-top">
+      <h3 id="discTitle" data-i18n="disc.title"></h3>
+      <div class="seg" id="discLang"><button data-lang="de">DE</button><button data-lang="en">EN</button></div>
+    </div>
+    <p data-i18n="disc.intro"></p>
+    <ol class="disc-list" id="discList"></ol>
+    <label class="check agree" id="discAgreeRow"><input type="checkbox" id="discAgree"><span></span><b data-i18n="disc.agree"></b></label>
+    <div class="dlg-actions"><button class="btn" id="discBtn" type="button"></button></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7.8.6/dist/wavesurfer.min.js"></script>
+<script src="/i18n.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
