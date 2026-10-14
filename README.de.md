@@ -1,10 +1,21 @@
 # VoiceClone
 
+[![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-blue.svg)](LICENSE)
+![Python 3.11-3.13](https://img.shields.io/badge/python-3.11--3.13-blue)
+![Plattform: Windows (getestet)](https://img.shields.io/badge/Plattform-Windows%20(getestet)-lightgrey)
+![Läuft lokal](https://img.shields.io/badge/läuft-100%25%20lokal-brightgreen)
+
 Eine lokale Web-App, die mit [KittenTTS 2](https://huggingface.co/KittenML/kitten-tts-2) Stimmen klont und beliebige Texte damit spricht. Nimm dich im Browser auf (oder lade eine Datei hoch), speichere die Stimme und erzeuge Sprache in 10 Sprachen, mit Kontrolle über Gefühl, Geräusche, Betonung, Tempo und Pausen. Alles läuft auf deinem eigenen Rechner.
+
+**Repository:** <https://github.com/N0tMaggi/VoiceClone> · [Deployment](DEPLOY.md) · [Architektur](docs/ARCHITECTURE.md) · [Haftungsausschluss](DISCLAIMER.md) · [Drittanbieter-Lizenzen](THIRD_PARTY.md) · [Lizenz](LICENSE) · [English](README.md)
+
+<img src="docs/images/de/studio.png" alt="Das Studio: Text, Chips für Gefühl und Geräusche, Stimmenauswahl und letzte Clips" width="100%">
 
 > **Verantwortungsvoll nutzen.** Stimmklonen kann missbraucht werden. Klone nur Stimmen von Personen, die ausdrücklich zugestimmt haben, und lies [DISCLAIMER.md](DISCLAIMER.md), bevor du die App benutzt. Beim ersten Start zeigt die App denselben Hinweis.
 
-[English version: README.md](README.md)
+## Inhalt
+
+[Funktionen](#funktionen) · [Screenshots](#screenshots) · [Schnellstart](#schnellstart) · [Wie das Klonen funktioniert](#wie-das-klonen-hier-funktioniert) · [Was das Modell kann](#was-das-modell-kann-und-was-nicht) · [Offline-Modus](#offline-modus) · [Konfiguration](#konfiguration) · [Datenschutz](#deine-daten-bleiben-privat) · [Projektstruktur](#projektstruktur) · [Tests](#tests) · [Lizenz](#lizenz)
 
 ## Funktionen
 
@@ -18,12 +29,34 @@ Eine lokale Web-App, die mit [KittenTTS 2](https://huggingface.co/KittenML/kitte
 - **Statusleiste** mit Modellstatus, GPU-Speicher und Speicherbelegung. Oberfläche auf Deutsch und Englisch.
 - **Offline-Modus:** Nach dem ersten Download macht die App keine Anfragen mehr an Hugging Face.
 
+## Screenshots
+
+Die Screenshots zeigen Demo-Stimmen, die aus den eingebauten KittenTTS-Stimmen erzeugt wurden. Es ist keine Aufnahme einer realen Person zu sehen.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/de/studio-controls.png" alt="Feinsteuerung und Ergebnis mit Wellenform und Seed"><br><sub><b>Feinsteuerung und Ergebnis.</b> Tempo, Lebendigkeit, Pausenlänge, Voreinstellungen und ein Seed, den du fixieren kannst, um einen Take zu wiederholen.</sub></td>
+    <td width="50%"><img src="docs/images/de/record.png" alt="Aufnehmen mit Teleprompter und Speichern-Fenster"><br><sub><b>Aufnehmen.</b> Teleprompter mit Vorlesetexten in 10 Sprachen, Pegelanzeige sowie Vorschau und Speichern.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/images/de/voices.png" alt="Stimmen-Bibliothek"><br><sub><b>Stimmen.</b> Jede Stimme mit Sprache, Anzahl der Samples und Qualitätsbewertung.</sub></td>
+    <td width="50%"><img src="docs/images/de/samples.png" alt="Samples einer Stimme"><br><sub><b>Samples.</b> Schalte Samples ein und aus, um zu vergleichen, wie sich die Stimme ändert; die App baut die beste Referenz.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/images/de/gallery.png" alt="Galerie der erzeugten Clips"><br><sub><b>Galerie.</b> Alle Clips mit Suche, Sprach- und Stimmenfiltern, Favoriten und Mehrfach-Löschen.</sub></td>
+    <td width="50%"><img src="docs/images/de/settings.png" alt="Einstellungen"><br><sub><b>Einstellungen.</b> Sprache der Oberfläche, Standard-Sprache, Haftungsausschluss und was wo läuft (auch der Offline-Modus).</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/images/de/disclaimer.png" alt="Haftungsausschluss beim ersten Start" width="100%"><br><sub><b>Erster Start.</b> Die App lässt dich zuerst die Nutzungsregeln bestätigen.</sub></td>
+  </tr>
+</table>
+
 ## Schnellstart
 
 Voraussetzungen: [uv](https://docs.astral.sh/uv/), Python 3.11 bis 3.13 (uv kann es installieren) und idealerweise eine NVIDIA-GPU. Getestet auf Windows 11 mit einer RTX 5080 (16 GB). Details und andere Plattformen stehen in [DEPLOY.md](DEPLOY.md).
 
 ```bash
-git clone <dieses Repository>
+git clone https://github.com/N0tMaggi/VoiceClone.git
 cd VoiceClone
 uv sync
 uv run python run.py
@@ -83,9 +116,9 @@ Der Wächter stoppt sogar `git add -f`. Nichts wird hochgeladen; Netzwerkverkehr
 ```
 app/        FastAPI-Backend: Engine (Modell-Wrapper), Audio, Stimmen, Gefühle, Einstellungen, Offline-Modus
 static/     die Web-Oberfläche (reines HTML/CSS/JS, kein Build-Schritt) mit i18n.js für DE/EN-Texte
-scripts/    spike.py (Machbarkeitstest), check_private_files.py (Commit-Wächter)
+scripts/    spike.py (Machbarkeitstest), check_private_files.py (Commit-Wächter), hooks/
 tests/      pytest-Suite (läuft ohne das Modell)
-docs/       ARCHITECTURE.md
+docs/       ARCHITECTURE.md und die Screenshots in docs/images/
 data/       entsteht zur Laufzeit, von Git ignoriert
 ```
 
@@ -99,8 +132,8 @@ Die Tests brauchen weder das Modell noch eine GPU.
 
 ## Lizenz
 
-Es wurde noch keine Lizenz gewählt, also gilt standardmäßig: **alle Rechte vorbehalten**. Solange keine Lizenzdatei hinzugefügt ist, darf niemand diesen Code ohne Erlaubnis kopieren, ändern oder weitergeben.
+Der Code dieses Repositorys steht unter der [MIT-Lizenz](LICENSE).
 
-Die Modelle haben eigene Lizenzen. Die KittenTTS-2-Gewichte stehen unter der Stellon Labs Community License (frei für Forschung, nicht-kommerzielle und begrenzte kommerzielle Nutzung; siehe [Modellkarte](https://huggingface.co/KittenML/kitten-tts-2)). Whisper und das Decoder-Modell haben eigene Bedingungen auf ihren Modellkarten. Die Oberfläche lädt GSAP, WaveSurfer.js und Google Fonts von CDNs, jeweils unter eigener Lizenz. Prüfe alles, bevor du etwas weitergibst oder kommerziell nutzt.
+Die verwendeten Modelle und Bibliotheken haben eigene Lizenzen, aufgelistet in [THIRD_PARTY.md](THIRD_PARTY.md). Am wichtigsten: Die **KittenTTS-2-Gewichte stehen unter der Stellon Labs Community License**, die Forschung, nicht-kommerzielle und begrenzte kommerzielle Nutzung erlaubt (siehe [Modellkarte](https://huggingface.co/KittenML/kitten-tts-2)). Whisper (Apache-2.0) und das Decoder-Modell (MIT) haben eigene Bedingungen auf ihren Modellkarten. Die MIT-Lizenz dieses Repositorys ändert nichts an der Modelllizenz; prüfe alle, bevor du etwas kommerziell nutzt oder weitergibst.
 
 Dieses Projekt steht in keiner Verbindung zu KittenML, Stellon Labs, Resemble AI, OpenAI oder Hugging Face.

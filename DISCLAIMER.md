@@ -1,6 +1,6 @@
 # Disclaimer
 
-*English first, deutsche Fassung weiter unten.*
+*English first, deutsche Fassung weiter unten.* Project: <https://github.com/N0tMaggi/VoiceClone> · [README](README.md) · [License](LICENSE) · [Third-party licenses](THIRD_PARTY.md)
 
 VoiceClone can imitate voices convincingly. By using it you agree to the following. This text is also shown in the app on first start.
 

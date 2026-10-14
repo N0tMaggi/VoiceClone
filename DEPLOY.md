@@ -1,5 +1,7 @@
 # Deployment
 
+Repository: <https://github.com/N0tMaggi/VoiceClone> · Back to the [README](README.md) · [Architecture](docs/ARCHITECTURE.md) · [Disclaimer](DISCLAIMER.md) · [Third-party licenses](THIRD_PARTY.md)
+
 VoiceClone is built to run **locally for one person**. "Deploying" it means installing it on a machine and starting it. It has no user accounts and no authentication, so do not expose it to a network you do not fully control (see [Network access](#network-access)).
 
 ## What was tested
@@ -25,7 +27,7 @@ Linux and macOS are **not tested**. The code is plain Python and should work on 
 ## Install and start
 
 ```bash
-git clone <this repository>
+git clone https://github.com/N0tMaggi/VoiceClone.git
 cd VoiceClone
 uv sync
 uv run python run.py
@@ -67,6 +69,8 @@ VOICECLONE_PORT=9000 uv run python run.py
 git pull
 uv sync
 ```
+
+For the commit guard that keeps your voices out of Git, run `git config core.hooksPath scripts/hooks` once per clone.
 
 To refresh the models themselves, start once with online mode forced:
 

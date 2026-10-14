@@ -1,10 +1,21 @@
 # VoiceClone
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Python 3.11-3.13](https://img.shields.io/badge/python-3.11--3.13-blue)
+![Platform: Windows (tested)](https://img.shields.io/badge/platform-Windows%20(tested)-lightgrey)
+![Runs locally](https://img.shields.io/badge/runs-100%25%20locally-brightgreen)
+
 A local web app for cloning a voice with [KittenTTS 2](https://huggingface.co/KittenML/kitten-tts-2) and speaking any text with it. Record yourself in the browser (or upload a file), save the voice, then generate speech in 10 languages with control over emotion, sounds, emphasis, speed and pauses. Everything runs on your own machine.
+
+**Repository:** <https://github.com/N0tMaggi/VoiceClone> · [Deploy](DEPLOY.md) · [Architecture](docs/ARCHITECTURE.md) · [Disclaimer](DISCLAIMER.md) · [Third-party licenses](THIRD_PARTY.md) · [License](LICENSE) · [Deutsch](README.de.md)
+
+<img src="docs/images/en/studio.png" alt="The Studio: text, emotion and sound chips, voice picker and recent clips" width="100%">
 
 > **Responsible use.** Voice cloning can be misused. Only clone voices of people who explicitly agreed, and read [DISCLAIMER.md](DISCLAIMER.md) before using the app. The app shows the same notice on first start.
 
-[Deutsche Version: README.de.md](README.de.md)
+## Contents
+
+[Features](#features) · [Screenshots](#screenshots) · [Quick start](#quick-start) · [How cloning works](#how-cloning-works-here) · [What the model can and cannot do](#what-the-model-can-and-cannot-do) · [Offline mode](#offline-mode) · [Configuration](#configuration) · [Privacy](#your-data-stays-private) · [Project layout](#project-layout) · [Tests](#tests) · [License](#license)
 
 ## Features
 
@@ -18,12 +29,34 @@ A local web app for cloning a voice with [KittenTTS 2](https://huggingface.co/Ki
 - **Status bar** with model state, GPU memory, and storage use. Interface in German and English.
 - **Offline mode**: after the first download the app makes no requests to Hugging Face.
 
+## Screenshots
+
+The screenshots show demo voices that were generated from the built-in KittenTTS voices. No real person's recording is shown.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/en/studio-controls.png" alt="Fine controls and the result with waveform and seed"><br><sub><b>Fine controls and result.</b> Speed, liveliness, pause length, presets, and a seed you can lock to repeat a take.</sub></td>
+    <td width="50%"><img src="docs/images/en/record.png" alt="Recording with teleprompter and the save panel"><br><sub><b>Record.</b> Teleprompter with reading texts in 10 languages, level meter, and the preview and save panel.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/images/en/voices.png" alt="Voice library"><br><sub><b>Voices.</b> Every voice with its language, number of samples and quality rating.</sub></td>
+    <td width="50%"><img src="docs/images/en/samples.png" alt="Samples of a voice"><br><sub><b>Samples.</b> Switch samples on and off to compare how the voice changes; the app builds the best reference.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/images/en/gallery.png" alt="Gallery of generated clips"><br><sub><b>Gallery.</b> All clips with search, language and voice filters, favourites and bulk delete.</sub></td>
+    <td width="50%"><img src="docs/images/en/settings.png" alt="Settings"><br><sub><b>Settings.</b> Interface language, default speech language, disclaimer, and what runs where (including offline mode).</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/images/en/disclaimer.png" alt="Disclaimer shown on first start" width="100%"><br><sub><b>First start.</b> The app asks you to confirm the rules of use before anything else.</sub></td>
+  </tr>
+</table>
+
 ## Quick start
 
 Requirements: [uv](https://docs.astral.sh/uv/), Python 3.11 to 3.13 (uv can install it), and ideally an NVIDIA GPU. Tested on Windows 11 with an RTX 5080 (16 GB). See [DEPLOY.md](DEPLOY.md) for details and other platforms.
 
 ```bash
-git clone <this repository>
+git clone https://github.com/N0tMaggi/VoiceClone.git
 cd VoiceClone
 uv sync
 uv run python run.py
@@ -83,9 +116,9 @@ The guard even stops `git add -f`. Nothing is uploaded; the only network traffic
 ```
 app/        FastAPI backend: engine (model wrapper), audio, voices, emotions, settings, offline mode
 static/     the web UI (plain HTML/CSS/JS, no build step) with i18n.js for DE/EN texts
-scripts/    spike.py (feasibility check), check_private_files.py (commit guard)
+scripts/    spike.py (feasibility check), check_private_files.py (commit guard), hooks/
 tests/      pytest suite (runs without the model)
-docs/       ARCHITECTURE.md
+docs/       ARCHITECTURE.md and the screenshots in docs/images/
 data/       created at runtime, git-ignored
 ```
 
@@ -99,8 +132,8 @@ The tests do not need the model or a GPU.
 
 ## License
 
-No license has been chosen yet, so **all rights are reserved** by default. Until a license file is added, nobody may copy, modify or redistribute this code without permission.
+The code of this repository is released under the [MIT License](LICENSE).
 
-The models have their own licenses. The KittenTTS 2 weights are under the Stellon Labs Community License (free for research, non-commercial and limited commercial use; see the [model card](https://huggingface.co/KittenML/kitten-tts-2)). Whisper and the decoder model have their own terms on their model cards. The UI loads GSAP, WaveSurfer.js and Google Fonts from CDNs, each under its own license. Check all of them before redistributing or using this commercially.
+The models and libraries it uses have their own licenses, listed in [THIRD_PARTY.md](THIRD_PARTY.md). Most important: the **KittenTTS 2 weights are under the Stellon Labs Community License**, which allows research, non-commercial and limited commercial use (see the [model card](https://huggingface.co/KittenML/kitten-tts-2)). Whisper (Apache-2.0) and the decoder model (MIT) have their own terms on their model cards. The MIT license of this repository does not change the model license; check all of them before commercial use or redistribution.
 
 This project is not affiliated with KittenML, Stellon Labs, Resemble AI, OpenAI or Hugging Face.

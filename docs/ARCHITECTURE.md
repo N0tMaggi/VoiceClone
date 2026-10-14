@@ -1,5 +1,7 @@
 # Architecture
 
+Repository: <https://github.com/N0tMaggi/VoiceClone> · [README](../README.md) · [Deploy](../DEPLOY.md)
+
 VoiceClone is a single-process FastAPI app that serves a static web UI and wraps KittenTTS 2. There is no build step and no database; all state is files in `data/`.
 
 ## Overview
