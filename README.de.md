@@ -70,7 +70,13 @@ Sind alle drei Modelle vollständig heruntergeladen, setzt die App `HF_HUB_OFFLI
 
 ## Deine Daten bleiben privat
 
-Stimmen, Samples, erzeugtes Audio und Einstellungen liegen in `data/` neben der App. Die `.gitignore` schließt `data/`, `samples/`, `spike_out/` und **jeden Audiodateityp** bewusst aus, damit Aufnahmen und erzeugte Sprache nie versehentlich committet werden. Ein Pre-Commit-Hook und ein Test prüfen das zusätzlich (siehe `scripts/check_private_files.py`). Nichts wird hochgeladen; Netzwerkverkehr gibt es nur für den Modell-Download von Hugging Face sowie für Schriftarten und Skripte von CDNs (wie du die selbst hostest, steht in [DEPLOY.md](DEPLOY.md)).
+Stimmen, Samples, erzeugtes Audio und Einstellungen liegen in `data/` neben der App. Die `.gitignore` schließt `data/`, `samples/`, `spike_out/` und **jeden Audiodateityp** bewusst aus, damit Aufnahmen und erzeugte Sprache nie versehentlich committet werden. Ein Pre-Commit-Hook und ein Test prüfen das zusätzlich (siehe `scripts/check_private_files.py`). Git übernimmt Hook-Einstellungen nicht in einen frischen Klon, also aktiviere den Wächter einmal pro Klon:
+
+```bash
+git config core.hooksPath scripts/hooks
+```
+
+Der Wächter stoppt sogar `git add -f`. Nichts wird hochgeladen; Netzwerkverkehr gibt es nur für den Modell-Download von Hugging Face sowie für Schriftarten und Skripte von CDNs (wie du die selbst hostest, steht in [DEPLOY.md](DEPLOY.md)).
 
 ## Projektstruktur
 

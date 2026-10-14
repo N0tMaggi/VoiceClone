@@ -70,7 +70,13 @@ When all three models are fully downloaded, the app sets `HF_HUB_OFFLINE=1` itse
 
 ## Your data stays private
 
-Voices, samples, generated audio and settings are stored in `data/` next to the app. The `.gitignore` excludes `data/`, `samples/`, `spike_out/` and **every audio file type** on purpose, so recordings and generated speech can never be committed by accident. A pre-commit hook and a test double-check this (see `scripts/check_private_files.py`). Nothing is uploaded; the only network traffic is the model download from Hugging Face and the fonts and scripts loaded from CDNs (see [DEPLOY.md](DEPLOY.md) for hosting those yourself).
+Voices, samples, generated audio and settings are stored in `data/` next to the app. The `.gitignore` excludes `data/`, `samples/`, `spike_out/` and **every audio file type** on purpose, so recordings and generated speech can never be committed by accident. A pre-commit hook and a test double-check this (see `scripts/check_private_files.py`). Git does not carry hook settings into a fresh clone, so enable the guard once per clone:
+
+```bash
+git config core.hooksPath scripts/hooks
+```
+
+The guard even stops `git add -f`. Nothing is uploaded; the only network traffic is the model download from Hugging Face and the fonts and scripts loaded from CDNs (see [DEPLOY.md](DEPLOY.md) for hosting those yourself).
 
 ## Project layout
 
